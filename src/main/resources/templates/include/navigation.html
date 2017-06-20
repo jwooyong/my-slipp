@@ -65,7 +65,7 @@
 				<li><a href="/users/form" role="button">회원가입</a></li>
 				{{/sessionUser}}
 				{{#sessionUser}}
-				<li><a href="#" role="button">회원정보수정</a></li>
+				<li><a href="/users/{{id}}/form" role="button">회원정보수정</a></li>
 				<li><a href="/users/logout" role="button">로그아웃</a></li>
 				{{/sessionUser}}
 			</ul>

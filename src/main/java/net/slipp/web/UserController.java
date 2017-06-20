@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,15 +72,33 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id}/form")
-	public String updateForm(@PathVariable Long id, Model model) {
+	public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
+
+		User sessionedUser = (User)(session.getAttribute("sessionUser"));		
+		if ( sessionedUser == null) {
+			return "redirect:/users/loginForm";			
+		}
+		if (!id.equals(sessionedUser.getId())) {
+			throw new IllegalStateException("자신의 정보만 수정할 수 있습니다.");
+		}
+		
 		model.addAttribute("user", userRepository.findOne(id));
 		return "/user/updateForm";
 	}	
 	
 	@PutMapping("/{id}")
-	public String update(@PathVariable Long id, User updateUser) {
+	public String update(@PathVariable Long id, User updatedUser, HttpSession session) {
+		
+		User sessionedUser = (User)(session.getAttribute("sessionUser"));		
+		if ( sessionedUser == null) {
+			return "redirect:/users/loginForm";			
+		}
+		if (!id.equals(sessionedUser.getId())) {
+			throw new IllegalStateException("자신의 정보만 수정할 수 있습니다.");
+		}
+		
 		User user = userRepository.findOne(id);
-		user.update(updateUser);
+		user.update(updatedUser);
 		userRepository.save(user);
 		return "redirect:/users";
 	}
