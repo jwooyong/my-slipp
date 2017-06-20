@@ -15,6 +15,18 @@ public class User {
 	public Long getId() {
 		return id;
 	}
+	
+	public boolean mathId(Long newId) {
+		if (newId == null) {
+			return false;
+		}
+		if (!newId.equals(this.id)) {
+			return false;
+		}
+		return true;
+	}
+	
+	
 	@Column(nullable=false, length=20, unique=true)
 	private String userId;
 	
@@ -28,6 +40,17 @@ public class User {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	
+	public boolean mathPassword(String newPassword) {
+		if (newPassword == null) {
+			return false;
+		}
+		if (!newPassword.equals(this.password)) {
+			return false;
+		}
+		return true;
+	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -55,6 +78,31 @@ public class User {
 		this.password = updateUser.password;
 		this.name = updateUser.name;
 		this.email = updateUser.email;		
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 	
 }

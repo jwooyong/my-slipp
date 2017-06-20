@@ -15,11 +15,12 @@
 					<li>
 						<div class="wrap">
 							<div class="main">
-								<strong class="subject"> <a href="/qna/form">{{title}}</a>
+								<strong class="subject"> <a href="/questions/{{id}}">{{title}}</a>
 								</strong>
 								<div class="auth-info">
-									<i class="icon-add-comment"></i> <span class="time">2016-01-15
-										18:47</span> <a href="./user/profile.html" class="author">{{writer}}</a>
+									<i class="icon-add-comment"></i > 
+									<span class="time">{{formattedCreateDate}}</span> 
+									<a href="./user/profile.html" class="author">{{writer.userId}}.{{writer.name}}</a>
 								</div>
 								<div class="reply" title="댓글">
 									<i class="icon-reply"></i> <span class="point">8</span>
@@ -51,10 +52,6 @@
 		</div>
 	</div>
 
-
-	<!-- script references -->
-	<script src="js/jquery-2.2.0.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/scripts.js"></script>
+	{{> include/footer}}
 </body>
 </html>

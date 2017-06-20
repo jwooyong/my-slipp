@@ -37,14 +37,15 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String login(String userId, String password, HttpSession session) {
+	public String login(String userId, String password, Model model, HttpSession session) {
 		
 		User user = userRepository.findByuserId(userId);
 		if (user == null) {
 			return "redirect:/users/loginForm";
 		}		
 		if (!(user.mathPassword(password))) {
-			return "redirect:/users/loginForm";			
+			model.addAttribute("errMessage", user.toString());
+			return "user/login";			
 		}		
 		session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);			
 		return "redirect:/";
