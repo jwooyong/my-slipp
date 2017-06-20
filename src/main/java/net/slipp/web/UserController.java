@@ -3,6 +3,9 @@ package net.slipp.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +30,32 @@ public class UserController {
 	@GetMapping("/form")
 	public String form() {
 		return "/user/form";
+	}
+	
+	@GetMapping("/loginForm")
+	public String loginForm() {		
+		return "/user/login";
+	}
+	
+	@PostMapping("/login")
+	public String login(String userId, String password, HttpSession session) {
+		
+		User user = userRepository.findByuserId(userId);
+		if (user == null) {
+			return "redirect:/users/loginForm";
+		}		
+		if (!password.equals(user.getPassword())) {
+			return "redirect:/users/loginForm";			
+		}		
+		session.setAttribute("sessionUser", user);			
+		return "redirect:/";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+			
+		session.removeAttribute("sessionUser");
+		return "redirect:/";
 	}
 	
 	@PostMapping("")
